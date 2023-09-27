@@ -14,4 +14,47 @@ const validLoginFromTheBody = {
   password: "secret_admin",
 };
 
-export { user, token, validLoginFromTheBody };
+const noEmailLoginFromTheBody = {
+  password: "secret_admin",
+};
+
+const noPasswordLoginFromTheBody = {
+  email: "admin@admin.com",
+};
+
+const invalidEmailLoginFromTheBody = {
+  email: "adminEmailcom",
+  password: "secret_admin",
+};
+
+const invalidPasswordLoginFromTheBody = {
+  email: "admin@admin.com",
+  password: "xabl",
+};
+
+const nonexistentUser = {
+  email: "fellipe@email.com",
+  password: "secret_admin",
+}
+
+const nonexistentPassword = {
+  email: "admin@admin.com",
+  password: "xablau",
+}
+
+const missingFieldsMessage = "All fields must be filled";
+const invalidFieldsMessage = "Invalid email or password";
+
+export {
+  user,
+  token,
+  validLoginFromTheBody,
+  noEmailLoginFromTheBody,
+  noPasswordLoginFromTheBody,
+  missingFieldsMessage,
+  invalidEmailLoginFromTheBody,
+  invalidPasswordLoginFromTheBody,
+  invalidFieldsMessage,
+  nonexistentUser,
+  nonexistentPassword,
+};

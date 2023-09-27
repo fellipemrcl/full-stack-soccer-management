@@ -31,6 +31,9 @@ export default class UserService {
       return { status: 'SUCCESSFUL', data: { token } };
     }
 
-    return { status: 'NOT_FOUND', data: { message: 'User not found' } };
+    return {
+      status: 'UNAUTHORIZED',
+      data: { message: 'Invalid email or password' },
+    };
   }
 }
