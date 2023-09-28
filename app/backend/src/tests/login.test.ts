@@ -99,5 +99,39 @@ describe("Login Test", function () {
     expect(body).to.deep.equal({ message: invalidFieldsMessage });
   });
 
+  it("shouldn't return the user role without a token", async function () {
+    const { status, body } = await chai.request(app).get("/login/role");
+
+    expect(status).to.equal(401);
+    expect(body.message).to.equal("Token not found");
+  });
+
+  it("shouldn't return the user role with an invalid token", async function () {
+    const { status, body } = await chai
+      .request(app)
+      .get("/login/role")
+      .set("authorization", "invalidToken");
+
+    expect(status).to.equal(401);
+    expect(body.message).to.equal("Token must be a valid token");
+  });
+
+  it("should return the user role with a valid token", async () => {
+    const loginResponse = await chai.request(app).post("/login").send({
+      email: validLoginFromTheBody.email,
+      password: validLoginFromTheBody.password,
+    });
+
+    const validToken = loginResponse.body.token;
+
+    const res = await chai
+      .request(app)
+      .get("/login/role")
+      .set("authorization", `Bearer ${validToken}`);
+
+    expect(res).to.have.status(200);
+    expect(res.body).to.deep.equal({ role: "admin" });
+  });
+
   afterEach(sinon.restore);
 });
