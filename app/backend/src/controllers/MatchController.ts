@@ -5,7 +5,7 @@ import MatchService from '../services/MatchService';
 export default class MatchController {
   constructor(private _matchService = new MatchService()) {}
 
-  public async getAllMatches(req: Request, res: Response) {
+  public async getAllMatches(_req: Request, res: Response) {
     try {
       const { data, status } = await this._matchService.getAllMatches();
       return res.status(mapStatusHTTP(status)).json(data);
@@ -21,6 +21,16 @@ export default class MatchController {
         inProgress as string,
       );
       res.status(mapStatusHTTP(status)).json(data);
+    } catch (error) {
+      return res.status(500).json({ message: (error as Error).message });
+    }
+  }
+
+  public async endMatch(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { data, status } = await this._matchService.endMatch(Number(id));
+      return res.status(mapStatusHTTP(status)).json(data);
     } catch (error) {
       return res.status(500).json({ message: (error as Error).message });
     }
