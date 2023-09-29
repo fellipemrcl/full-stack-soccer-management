@@ -1,18 +1,64 @@
+const matches = [
+  {
+    id: 41,
+    homeTeamId: 16,
+    homeTeamGoals: 2,
+    awayTeamId: 9,
+    awayTeamGoals: 0,
+    inProgress: true,
+    homeTeam: {
+      teamName: "São Paulo",
+    },
+    awayTeam: {
+      teamName: "Internacional",
+    },
+  },
+  {
+    id: 42,
+    homeTeamId: 6,
+    homeTeamGoals: 1,
+    awayTeamId: 1,
+    awayTeamGoals: 0,
+    inProgress: true,
+    homeTeam: {
+      teamName: "Ferroviária",
+    },
+    awayTeam: {
+      teamName: "Avaí/Kindermann",
+    },
+  },
+];
+
 const match = {
-  id: 1,
+  id: 41,
   homeTeamId: 16,
-  homeTeamGoals: 1,
-  awayTeamId: 8,
-  awayTeamGoals: 1,
-  inProgress: false,
+  homeTeamGoals: 2,
+  awayTeamId: 9,
+  awayTeamGoals: 0,
+  inProgress: true,
   homeTeam: {
     teamName: "São Paulo",
   },
   awayTeam: {
-    teamName: "Grêmio",
+    teamName: "Internacional",
   },
 };
 
-const matches = [match];
+const inProgressTrueMatch = {
+  id: 42,
+  homeTeamId: 6,
+  homeTeamGoals: 1,
+  awayTeamId: 1,
+  awayTeamGoals: 0,
+  inProgress: true,
+  homeTeam: {
+    teamName: "Ferroviária",
+  },
+  awayTeam: {
+    teamName: "Avaí/Kindermann",
+  },
+};
 
-export { match, matches };
+const inProgressTrueMatches = [inProgressTrueMatch];
+
+export { match, matches, inProgressTrueMatch, inProgressTrueMatches };
