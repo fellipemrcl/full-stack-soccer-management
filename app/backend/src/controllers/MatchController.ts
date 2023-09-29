@@ -26,10 +26,10 @@ export default class MatchController {
     }
   }
 
-  public async endMatch(req: Request, res: Response) {
+  public async updateMatch(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { data, status } = await this._matchService.endMatch(Number(id));
+      const { data, status } = await this._matchService.updateMatch(Number(id));
       return res.status(mapStatusHTTP(status)).json(data);
     } catch (error) {
       return res.status(500).json({ message: (error as Error).message });

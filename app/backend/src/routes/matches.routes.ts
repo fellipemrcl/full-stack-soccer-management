@@ -18,7 +18,7 @@ matchRouter.get('/', (req: Request, res: Response) => {
 matchRouter.patch(
   '/:id/finish',
   Validations.validateToken,
-  (req: Request, res: Response) => matchController.endMatch(req, res),
+  (req: Request, res: Response) => matchController.updateMatch(req, res),
 );
 
 export default matchRouter;
