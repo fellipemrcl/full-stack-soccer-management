@@ -45,6 +45,20 @@ export default class MatchModel implements IMatchModel {
     return dbData;
   }
 
+  public async findById(id: number): Promise<IMatch | null> {
+    const dbData = await this.model.findByPk(id);
+    if (dbData == null) return null;
+    const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress } = dbData;
+    return {
+      id,
+      homeTeamId,
+      homeTeamGoals,
+      awayTeamId,
+      awayTeamGoals,
+      inProgress,
+    };
+  }
+
   public async updateMatch(id: number): Promise<void> {
     await this.model.update({ inProgress: false }, { where: { id } });
   }
