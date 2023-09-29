@@ -32,6 +32,7 @@ class Validations {
     }
     const splittedToken = token.split(' ')[1];
     const validToken = await JWT.verify(splittedToken);
+    req.body.user = validToken;
     if (validToken === 'Token must be a valid token') {
       return res.status(401).json({ message: validToken });
     }
