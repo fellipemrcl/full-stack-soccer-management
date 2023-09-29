@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { IGoal } from '../Interfaces/matches/IMatch';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
 import MatchService from '../services/MatchService';
 
@@ -29,7 +30,11 @@ export default class MatchController {
   public async updateMatch(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { data, status } = await this._matchService.updateMatch(Number(id));
+      const goalsInfo = req.body;
+      const { data, status } = await this._matchService.updateMatch(
+        Number(id),
+        goalsInfo as IGoal | undefined,
+      );
       return res.status(mapStatusHTTP(status)).json(data);
     } catch (error) {
       return res.status(500).json({ message: (error as Error).message });
