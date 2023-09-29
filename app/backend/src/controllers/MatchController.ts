@@ -13,4 +13,16 @@ export default class MatchController {
       return res.status(500).json({ message: (error as Error).message });
     }
   }
+
+  public async getMatchesByQuery(req: Request, res: Response) {
+    try {
+      const { inProgress } = req.query;
+      const { data, status } = await this._matchService.getMatchesByQuery(
+        inProgress as string,
+      );
+      res.status(mapStatusHTTP(status)).json(data);
+    } catch (error) {
+      return res.status(500).json({ message: (error as Error).message });
+    }
+  }
 }

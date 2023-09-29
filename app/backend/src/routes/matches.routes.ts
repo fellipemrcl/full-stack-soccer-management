@@ -5,7 +5,13 @@ const matchController = new MatchController();
 
 const matchRouter = Router();
 
-matchRouter.get('/', (req: Request, res: Response) =>
-  matchController.getAllMatches(req, res));
+matchRouter.get('/', (req: Request, res: Response) => {
+  const { inProgress } = req.query;
+  if (inProgress !== undefined) {
+    matchController.getMatchesByQuery(req, res);
+  } else {
+    matchController.getAllMatches(req, res);
+  }
+});
 
 export default matchRouter;
