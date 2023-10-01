@@ -1,4 +1,4 @@
-export type NewEntity<T> = Omit<T, 'id'>;
+export type NewEntity<T> = Omit<T, 'id' | 'inProgress'>;
 
 export type ID = number;
 

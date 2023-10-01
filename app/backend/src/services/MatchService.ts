@@ -1,3 +1,4 @@
+import { NewEntity } from '../Interfaces';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
 import MatchModel from '../models/MatchModel';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
@@ -30,5 +31,12 @@ export default class MatchService {
       };
     }
     return { status: 'SUCCESSFUL', data: { message: 'Finished' } };
+  }
+
+  public async createMatch(
+    data: NewEntity<IMatch>,
+  ): Promise<ServiceResponse<IMatch>> {
+    const createdMatch = await this._matchModel.createMatch(data);
+    return { status: 'CREATED', data: createdMatch };
   }
 }

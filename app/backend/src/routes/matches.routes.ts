@@ -15,6 +15,12 @@ matchRouter.get('/', (req: Request, res: Response) => {
   }
 });
 
+matchRouter.post(
+  '/',
+  Validations.validateToken,
+  (req: Request, res: Response) => matchController.createMatch(req, res),
+);
+
 matchRouter.patch(
   '/:id/finish',
   Validations.validateToken,

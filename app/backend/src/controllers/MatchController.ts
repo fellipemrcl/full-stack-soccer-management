@@ -40,4 +40,13 @@ export default class MatchController {
       return res.status(500).json({ message: (error as Error).message });
     }
   }
+
+  public async createMatch(req: Request, res: Response) {
+    try {
+      const { data, status } = await this._matchService.createMatch(req.body);
+      return res.status(mapStatusHTTP(status)).json(data);
+    } catch (error) {
+      return res.status(500).json({ message: (error as Error).message });
+    }
+  }
 }

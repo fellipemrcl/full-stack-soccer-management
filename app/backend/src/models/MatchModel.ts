@@ -1,3 +1,4 @@
+import { NewEntity } from '../Interfaces';
 import SequelizeTeams from '../database/models/SequelizeTeams';
 import SequelizeMatches from '../database/models/SequelizeMatches';
 import { IGoal, IMatch } from '../Interfaces/matches/IMatch';
@@ -59,13 +60,19 @@ export default class MatchModel implements IMatchModel {
     };
   }
 
-  public async updateMatch(id: number, goalsInfo?: IGoal): Promise<void | number> {
+  public async updateMatch(
+    id: number,
+    goalsInfo?: IGoal,
+  ): Promise<void | number> {
     const match = await this.findById(id);
     if (!match) return 0;
 
     const updateData: Partial<IMatch> = {};
 
-    if (goalsInfo?.homeTeamGoals !== undefined || goalsInfo?.awayTeamGoals !== undefined) {
+    if (
+      goalsInfo?.homeTeamGoals !== undefined
+      || goalsInfo?.awayTeamGoals !== undefined
+    ) {
       updateData.homeTeamGoals = goalsInfo?.homeTeamGoals;
       updateData.awayTeamGoals = goalsInfo?.awayTeamGoals;
     } else {
@@ -75,5 +82,27 @@ export default class MatchModel implements IMatchModel {
     await this.model.update(updateData, { where: { id } });
 
     return 1;
+  }
+
+  public async createMatch(data: NewEntity<IMatch>): Promise<IMatch> {
+    const newMatch = { ...data, inProgress: true };
+    const dbData = await this.model.create(newMatch);
+
+    const {
+      id,
+      homeTeamId,
+      homeTeamGoals,
+      awayTeamId,
+      awayTeamGoals,
+      inProgress,
+    }: IMatch = dbData;
+    return {
+      id,
+      homeTeamId,
+      homeTeamGoals,
+      awayTeamId,
+      awayTeamGoals,
+      inProgress,
+    };
   }
 }
