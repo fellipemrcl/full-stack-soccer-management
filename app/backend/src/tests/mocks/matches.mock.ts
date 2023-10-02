@@ -53,6 +53,25 @@ const finishedMessage = { message: "Finished" };
 
 const notFoundMessage = { message: "No match found." };
 
+const matchWithSameTeamId = {
+  ...newMatch,
+  homeTeamId: 16,
+  awayTeamId: 16,
+};
+
+const matchWithInvalidTeamId = {
+  ...newMatch,
+  homeTeamId: 500,
+}
+
+const invalidIdMessage = {
+  message: "There is no team with such id!",
+};
+
+const equalTeamsMessage = {
+  message: "It is not possible to create a match with two equal teams",
+};
+
 export {
   matches,
   newMatch,
@@ -60,4 +79,8 @@ export {
   finishedMessage,
   updateMatchBody,
   notFoundMessage,
+  matchWithSameTeamId,
+  invalidIdMessage,
+  equalTeamsMessage,
+  matchWithInvalidTeamId,
 };

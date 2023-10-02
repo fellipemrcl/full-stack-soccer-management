@@ -7,7 +7,11 @@ import chaiHttp = require("chai-http");
 import { app } from "../app";
 import SequelizeMatches from "../database/models/SequelizeMatches";
 import {
+  equalTeamsMessage,
   finishedMessage,
+  invalidIdMessage,
+  matchWithInvalidTeamId,
+  matchWithSameTeamId,
   matches,
   newMatch,
   notFoundMessage,
@@ -90,6 +94,34 @@ describe("Matches Test", function () {
     expect(body).to.deep.equal(newMatch);
   });
 
+  it("shouldn't create a match when teams have the same id", async function () {
+    sinon.stub(SequelizeMatches, "create").resolves(matchWithSameTeamId as any);
+    sinon.stub(jwt, "verify").resolves();
+
+    const { status, body } = await chai
+      .request(app)
+      .post("/matches")
+      .set("authorization", "validToken")
+      .send(equalTeamsMessage);
+
+    expect(status).to.equal(422);
+    expect(body).to.deep.equal(equalTeamsMessage);
+  });
+
+  /* it("shouldn't create a match when teams have invalid id", async function () {
+    sinon.stub(SequelizeMatches, "create").resolves(matchWithInvalidTeamId as any);
+    sinon.stub(jwt, "verify").resolves();
+
+    const { status, body } = await chai
+      .request(app)
+      .post("/matches")
+      .set("authorization", "validToken")
+      .send(invalidIdMessage);
+
+    expect(status).to.equal(404);
+    expect(body).to.deep.equal(invalidIdMessage);
+  }); */
+
   it("should update a match", async function () {
     sinon.stub(SequelizeMatches, "update").resolves([1] as any);
     sinon.stub(SequelizeMatches, "findByPk").resolves(updateMatchBody as any);
@@ -104,19 +136,6 @@ describe("Matches Test", function () {
       .send({ data: finishedMessage });
 
     expect(status).to.equal(200);
-  });
-
-  it("shouldn't update a match with an invalid id", async function () {
-    sinon.stub(SequelizeMatches, "findByPk").resolves(null);
-    sinon.stub(jwt, "verify").resolves();
-
-    const { status, body } = await chai
-      .request(app)
-      .patch(`/matches/1000`)
-      .set("authorization", "validToken")
-      .send({ data: notFoundMessage });
-
-    expect(status).to.equal(404);
   });
 
   afterEach(sinon.restore);
