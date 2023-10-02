@@ -6,5 +6,5 @@ export interface IMatchModel {
   findByQuery(inProgress: string): Promise<IMatch[]>;
   findById(id: number): Promise<IMatch | null>;
   updateMatch(id: IMatch['id'], goalsInfo?: IGoal): Promise<void | number>;
-  createMatch(data: NewEntity<IMatch>): Promise<IMatch>;
+  createMatch(data: NewEntity<IMatch>): Promise<IMatch | null>;
 }
