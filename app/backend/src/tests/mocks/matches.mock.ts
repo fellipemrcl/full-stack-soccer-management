@@ -38,4 +38,26 @@ const newMatch = {
   inProgress: true,
 };
 
-export { matches, newMatch };
+const updateMatchBody = {
+  homeTeamGoals: 5,
+  awayTeamGoals: 1,
+};
+
+const updatedMatch = {
+  ...newMatch,
+  homeTeamGoals: 5,
+  awayTeamGoals: 1,
+};
+
+const finishedMessage = { message: "Finished" };
+
+const notFoundMessage = { message: "No match found." };
+
+export {
+  matches,
+  newMatch,
+  updatedMatch,
+  finishedMessage,
+  updateMatchBody,
+  notFoundMessage,
+};
