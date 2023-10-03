@@ -2,7 +2,22 @@ import ILeaderBoard, {
   MatchScore,
 } from '../Interfaces/leaderboard/ILeaderboard';
 
+const pointsPerVictory = 3;
+const percentual = 100;
+
 export default class LeaderboardHelper {
+  static calculateEfficiency(teams: ILeaderBoard[]) {
+    const mappedEfficiency = teams.map((team) => ({
+      ...team,
+      efficiency: (
+        (team.totalPoints / (team.totalGames * pointsPerVictory))
+        * percentual
+      ).toFixed(2),
+    }));
+
+    return mappedEfficiency;
+  }
+
   static calculateGoalsBalance(teams: ILeaderBoard[]) {
     const mappedGoalsBalance = teams.map((team) => ({
       ...team,
@@ -13,7 +28,6 @@ export default class LeaderboardHelper {
   }
 
   static calculateTotalPoints(teams: ILeaderBoard[]) {
-    const pointsPerVictory = 3;
     const mappedTotalPoints = teams.map((team) => ({
       ...team,
       totalPoints: team.totalVictories * pointsPerVictory + team.totalDraws,
