@@ -1,4 +1,6 @@
-import ILeaderBoard from '../Interfaces/leaderboard/ILeaderboard';
+import ILeaderBoard, {
+  MatchScore,
+} from '../Interfaces/leaderboard/ILeaderboard';
 
 export default class LeaderboardHelper {
   static calculateGoalsBalance(teams: ILeaderBoard[]) {
@@ -18,5 +20,22 @@ export default class LeaderboardHelper {
     }));
 
     return mappedTotalPoints;
+  }
+
+  static generateEachTeamStatistics(team: MatchScore): ILeaderBoard {
+    const teamWithStatistics = {
+      name: team.homeTeam,
+      totalPoints: 0,
+      totalGames: 1,
+      totalVictories: team.homeTeamGoals > team.awayTeamGoals ? 1 : 0,
+      totalDraws: team.homeTeamGoals === team.awayTeamGoals ? 1 : 0,
+      totalLosses: team.homeTeamGoals < team.awayTeamGoals ? 1 : 0,
+      goalsFavor: Number(team.homeTeamGoals),
+      goalsOwn: Number(team.awayTeamGoals),
+      goalsBalance: 0,
+      efficiency: '',
+    };
+
+    return teamWithStatistics;
   }
 }
