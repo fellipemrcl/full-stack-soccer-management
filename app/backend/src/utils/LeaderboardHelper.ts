@@ -9,4 +9,14 @@ export default class LeaderboardHelper {
 
     return mappedGoalsBalance;
   }
+
+  static calculateTotalPoints(teams: ILeaderBoard[]) {
+    const pointsPerVictory = 3;
+    const mappedTotalPoints = teams.map((team) => ({
+      ...team,
+      totalPoints: team.totalVictories * pointsPerVictory + team.totalDraws,
+    }));
+
+    return mappedTotalPoints;
+  }
 }
