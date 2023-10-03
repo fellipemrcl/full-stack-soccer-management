@@ -10,3 +10,9 @@ export default interface ILeaderBoard {
   goalsBalance: number;
   efficiency: string;
 }
+
+export type MatchScore = {
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+  homeTeam?: string;
+};
