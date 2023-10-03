@@ -49,23 +49,25 @@ export default class LeaderboardHelper {
     return orderTeams;
   }
 
-  static formatEachTeam(matches: MatchScore[][]): ILeaderBoard[] {
+  static formatEachTeam(matches: MatchScore[][]) {
     const teams: ILeaderBoard[] = [];
 
     matches.forEach((match) => {
       match.forEach((m) => {
-        const existingTeam = teams.find((team) => team.name === m.homeTeam);
-
-        if (existingTeam) {
-          const updatedTeam = this.updateTeamStatistics(existingTeam, m);
-          teams.push(updatedTeam);
+        const hasTeam = teams.find((t) => t.name === m.homeTeam);
+        if (hasTeam) {
+          hasTeam.totalGames += 1;
+          hasTeam.totalVictories += m.homeTeamGoals > m.awayTeamGoals ? +1 : 0;
+          hasTeam.totalDraws += m.homeTeamGoals === m.awayTeamGoals ? 1 : 0;
+          hasTeam.totalLosses += m.homeTeamGoals < m.awayTeamGoals ? 1 : 0;
+          hasTeam.goalsFavor += Number(m.homeTeamGoals);
+          hasTeam.goalsOwn += Number(m.awayTeamGoals);
         } else {
-          const newTeam = this.generateEachTeamStatistics(m);
-          teams.push(newTeam);
+          const team = this.generateEachTeamStatistics(m);
+          teams.push(team);
         }
       });
     });
-
     return teams;
   }
 
@@ -102,24 +104,5 @@ export default class LeaderboardHelper {
 
       return teamB.goalsFavor - teamA.goalsFavor;
     });
-  }
-
-  static updateTeamStatistics(
-    team: ILeaderBoard,
-    match: MatchScore,
-  ): ILeaderBoard {
-    const updatedTeam = { ...team };
-
-    updatedTeam.totalGames += 1;
-    updatedTeam.totalVictories
-      += match.homeTeamGoals > match.awayTeamGoals ? 1 : 0;
-    updatedTeam.totalDraws
-      += match.homeTeamGoals === match.awayTeamGoals ? 1 : 0;
-    updatedTeam.totalLosses
-      += match.homeTeamGoals < match.awayTeamGoals ? 1 : 0;
-    updatedTeam.goalsFavor += Number(match.homeTeamGoals);
-    updatedTeam.goalsOwn += Number(match.awayTeamGoals);
-
-    return updatedTeam;
   }
 }
